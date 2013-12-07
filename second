@@ -1,0 +1,44 @@
+/*
+ *  second.cpp
+ *  
+ *
+ *  Created by Ten Mutunhire on 11/20/13.
+ *  Copyright 2013 Colby College. All rights reserved.
+ *
+ */
+
+#include "second.h"
+
+#include <string>
+#include <complex>
+
+int main
+{
+	
+	string user_name;
+	
+	int usr_val;
+	
+	int num_tries = 0, num_right = 0;
+	
+	//complex<double> purei(0, 7);
+	
+	double usr_score = 0.0;
+	
+	char usr_more;
+	cout << "Try another sequence? Y/N? ";
+	cin >> usr_more;
+	
+	bool go_for_it = true;
+	
+	//constant
+	const int max tries = 3;
+	const double pi = 3.14159;
+	
+	
+	
+	
+}
+
+
+
