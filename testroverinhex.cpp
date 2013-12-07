@@ -1,5 +1,5 @@
 /*
- *  testrover.cpp
+ *  testroverinhex.cpp
  *  
  *
  *  Created by Ten Mutunhire on 12/7/13.
@@ -7,11 +7,9 @@
  *
  */
 
-#include "testrover.h"
-
-
+#include "testroverinhex.h"
 /*
- *  sockets.cpp
+ *  hexsockets.cpp
  *  
  *
  *  Created by Ten Mutunhire on 12/7/13.
@@ -19,10 +17,23 @@
  *
  */
 
+#include "hexsockets.h"
 #include <iostream>
 #include <cstring>
 #include <sys/socket.h>
 #include<netdb.h>
+
+char const hex[16] = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A',   'B','C','D','E','F'};
+
+std::string byte_2_str(char* bytes, int size) {
+	std::string str;
+	for (int i = 0; i < size; ++i) {
+		const char ch = bytes[i];
+		str.append(&hex[(ch  & 0xF0) >> 4], 1);
+		str.append(&hex[ch & 0xF], 1);
+	}
+	return str;
+}
 
 int main()
 {
@@ -37,7 +48,7 @@ int main()
 	host_info.ai_family = AF_UNSPEC;
 	host_info.ai_socktype = SOCK_STREAM;
 	
-	status = getaddrinfo("127.0.0.1", "2100", &host_info, &host_info_list);
+	status = getaddrinfo("192.168.1.244", "8282", &host_info, &host_info_list);
 	if (status != 0) std::cout << "getaddrinfo error" << gai_strerror(status);
 	
 	//connect to a server
@@ -53,7 +64,7 @@ int main()
 	
 	//send messages
 	std::cout << "sending message..." << std::endl;
-	//char *msg = "GET / HTTP/1.1\nhost: 192.168.1.243\n\n";
+	//char *msg = "GET / HTTP/1.1\nhost: www.google.com\n\n";
 	//int len;
 	ssize_t bytes_sent;
 	//len = strlen(msg);
@@ -69,12 +80,23 @@ int main()
 	if(bytes_received == 0) std::cout << "host shut down." << std::endl;
 	if(bytes_received == -1) std::cout << "receive error!" << std::endl;
 	std::cout << bytes_received << " bytes received: " << std::endl;
-	std::cout << incoming_data_buffer << std::endl;
 	
-	std::cout << "Receiving complete. Closing socket..." << std::endl;
+	//print buffer array
+	//std::cout << incoming_data_buffer << std::endl;
+	//print array in hex, but first, give address
+	char* arrayBytes = incoming_data_buffer;
+	std::cout << "address of char array: \n";
+	std::cout << &arrayBytes;
+	
+	std::string arraystringhex = byte_2_str(arrayBytes, 1000);
+	//print array string in hex
+	std::cout << "Now, string of response in hex: \n";
+	std::cout << arraystringhex;
+	std::cout << std::endl;
+	
+	std::cout << "Receiving complete. Closing socket...\n";
 	freeaddrinfo(host_info_list);
 	close(socketfd);
 	
 }
-
 
