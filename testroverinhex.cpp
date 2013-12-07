@@ -90,13 +90,38 @@ int main()
 	
 	std::string arraystringhex = byte_2_str(arrayBytes, 1000);
 	//print array string in hex
-	std::cout << "Now, string of response in hex: \n";
+	std::cout << "****************Now, string of response in hex*******: \n";
 	std::cout << arraystringhex;
 	std::cout << std::endl;
 	
-	std::cout << "Receiving complete. Closing socket...\n";
+	std::cout << "***************Receiving complete. Closing socket...*********\n";
 	freeaddrinfo(host_info_list);
 	close(socketfd);
+	
+	std::cout << "\nNow we get to pipe this data to a file in a neatly arranged format...\n";
+	
+	int testint = 0;
+	for (int i = 2; i < (arraystringhex.size()-2); i=i+2) {
+		
+		//print number "1." on first line as well [do it in hex]
+		if(testint == 0)
+			std::cout << std::hex << "\n" << 1 << ".\t";
+		
+		
+		
+		
+		//print a row of 16 bytes
+		std::cout <<arraystringhex[i-2] << arraystringhex[i-1] << " ";
+		testint++;
+		
+				
+		//then start counting the rest of the rows on 2 and so on [do it in hex]
+		if(testint % 16 == 0)
+			std::cout << std::hex << "\n" << (testint / 16 + 1) << ".\t";
+		//std::cout << "testint is now: " << testint << "\n";
+	}
+	std::cout << "\n";
+	return 0;
 	
 }
 
