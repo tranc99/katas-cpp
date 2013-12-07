@@ -35,6 +35,12 @@ std::string byte_2_str(char* bytes, int size) {
 	return str;
 }
 
+
+int saveDataToFile()
+{
+	
+}
+
 int main()
 {
 	int status;
@@ -74,8 +80,8 @@ int main()
 	std::cout << "Waiting to receive data..." << std::endl;
 	
 	ssize_t bytes_received;
-	char incoming_data_buffer[1000];
-	bytes_received = recv(socketfd, incoming_data_buffer, 1000, 0);
+	char incoming_data_buffer[8192];
+	bytes_received = recv(socketfd, incoming_data_buffer, 8192, 0);
 	
 	if(bytes_received == 0) std::cout << "host shut down." << std::endl;
 	if(bytes_received == -1) std::cout << "receive error!" << std::endl;
@@ -88,7 +94,7 @@ int main()
 	std::cout << "address of char array: \n";
 	std::cout << &arrayBytes;
 	
-	std::string arraystringhex = byte_2_str(arrayBytes, 1000);
+	std::string arraystringhex = byte_2_str(arrayBytes, 8192);
 	//print array string in hex
 	std::cout << "****************Now, string of response in hex*******: \n";
 	std::cout << arraystringhex;
@@ -111,7 +117,7 @@ int main()
 		
 		
 		//print a row of 16 bytes
-		std::cout <<arraystringhex[i-2] << arraystringhex[i-1] << " ";
+		std::cout <<arraystringhex[i-2] << arraystringhex[i-1] << "  ";
 		testint++;
 		
 				
